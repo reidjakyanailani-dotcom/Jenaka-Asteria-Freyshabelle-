@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Last Thing - Jenaka Slide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #2c2c2c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .slide-container {
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+            background: linear-gradient(135deg, #8B6F47 0%, #A0826D 100%);
+            color: white;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .slide h1 {
+            font-size: 3.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .slide h2 {
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .slide p {
+            font-size: 1.3em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .slide-content {
+            max-width: 700px;
+        }
+        
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 10;
+        }
+        
+        button {
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid white;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        
+        button:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+        
+        .slide-indicator {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            color: white;
+            font-size: 1.1em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .emoji {
+            font-size: 1.2em;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- Slide 1: Judul -->
+        <div class="slide active">
+            <div class="slide-content">
+                <h1>One Last Thing</h1>
+                <p style="font-size: 1.5em; margin-top: 40px;"><span class="emoji">🤎</span></p>
+            </div>
+        </div>
+        
+        <!-- Slide 2: Pesan Inti -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Makasih ya</h2>
+                <p>Udah mau jadi temennya Jenaka</p>
+                <br>
+                <p>Terima kasih sudah hadir, sudah mendengarkan, dan sudah menjadi bagian dari cerita-cerita kecil yang mungkin suatu hari akan kita kenang.</p>
+                <br>
+                <p>Maaf kalau selama ini Jenaka masih banyak salah. Kalau pernah ada ucapan atau sikap yang bikin kamu nggak nyaman, semoga bisa dimaafkan.</p>
+            </div>
+        </div>
+        
+        <!-- Slide 3: Doa & Penutup -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Semoga</h2>
+                <p>Hidupmu dipenuhi hal-hal baik.</p>
+                <p>Teruslah jadi diri sendiri.</p>
+                <p>Hargai hal-hal kecil di dunia ini.</p>
+                <p>Dan jangan lupa merayakan setiap langkah yang berhasil kamu lewati.</p>
+                <br>
+                <p style="font-size: 1.5em; margin-top: 30px;"><b>Thank you for being here</b></p>
+                <p style="font-size: 1.2em; margin-top: 20px;">— Jenaka <span class="emoji">🤎</span></p>
+            </div>
+        </div>
+        
+        <!-- Controls -->
+        <div class="controls">
+            <button onclick="previousSlide()">← Sebelumnya</button>
+            <button onclick="nextSlide()">Selanjutnya →</button>
+        </div>
+        
+        <!-- Indicator -->
+        <div class="slide-indicator">
+            <span id="current">1</span> / <span id="total">3</span>
+        </div>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            if (n >= totalSlides) currentSlide = 0;
+            if (n < 0) currentSlide = totalSlides - 1;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current').textContent = currentSlide + 1;
+        }
+        
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+        
+        function previousSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+        
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
